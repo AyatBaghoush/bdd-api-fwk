@@ -20,15 +20,26 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '24'
+          node-version: '18'
 
       - name: Install dependencies
         run: |
           npm install
 
-      - name: Run functional tests
+      - name: Run tests and generate Allure results
         run: |
-          npm run report
+          npm run test
+
+      - name: Generate Allure report
+        run: |
+          npx allure generate allure-results --clean -o allure-report
+
+      - name: Upload Allure report
+        uses: actions/upload-artifact@v3
+        with:
+          name: allure-report
+          path: allure-report
+
 
   load-tests:
     runs-on: ubuntu-latest
