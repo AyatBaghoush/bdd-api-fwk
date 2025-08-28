@@ -20,12 +20,10 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd functional-tests
           npm install
 
       - name: Run functional tests
         run: |
-          cd functional-tests
           npm test
 
   load-tests:
