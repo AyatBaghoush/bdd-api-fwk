@@ -6,6 +6,9 @@ on:
       - main  # Trigger on pushes to main branch
   workflow_dispatch: # Allow manual triggering
 
+permissions:
+  contents: write
+
 jobs:
   test-and-deploy:
     runs-on: ubuntu-latest
