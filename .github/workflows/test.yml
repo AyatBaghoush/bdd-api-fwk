@@ -1,0 +1,49 @@
+name: Run API Tests
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+jobs:
+  functional-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd functional-tests
+          npm install
+
+      - name: Run functional tests
+        run: |
+          cd functional-tests
+          npm test
+
+  load-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install k6
+        run: |
+          curl -s https://api.github.com/repos/grafana/k6/releases/latest \
+          | grep "browser_download_url.*linux-amd64" \
+          | cut -d '"' -f 4 \
+          | wget -i -
+          tar -xvf k6*.tar.gz
+          sudo mv k6*/k6 /usr/local/bin/
+
+      - name: Run load test
+        run: |
+          cd load-tests
+          k6 run UsersListingLoad.js
