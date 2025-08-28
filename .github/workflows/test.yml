@@ -28,7 +28,7 @@ jobs:
 
       - name: Run functional tests
         run: |
-          npm report
+          npm run report
 
   load-tests:
     runs-on: ubuntu-latest
