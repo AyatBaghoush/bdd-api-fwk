@@ -13,10 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Build Docker image
+        run: |
+          docker build -t your-image-name:latest .
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '24'
 
       - name: Install dependencies
         run: |
@@ -24,13 +28,17 @@ jobs:
 
       - name: Run functional tests
         run: |
-          npm test
+          npm report
 
   load-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: |
+          docker build -t your-image-name:latest .
 
       - name: Install k6
         run: |
