@@ -7,4 +7,6 @@ RUN npm install
 
 COPY . .
 
-CMD ["npm", "test"]
+# Run tests and generate Allure report in /app/report
+RUN npm run test && \
+    npx allure generate ./allure-results -o /app/report --clean
