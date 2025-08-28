@@ -87,11 +87,18 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git clone --branch gh-pages https://github.com/${{ github.repository }} gh-pages
-          rm -rf gh-pages/*
+
+          # Create a temporary directory for deployment
+          mkdir gh-pages
           cp -r allure-report/* gh-pages/
           cd gh-pages
+
+          # Initialize a new Git repo if gh-pages doesn't exist
+          git init
+          git remote add origin https://github.com/${{ github.repository }}
+          git checkout -b gh-pages
           touch .nojekyll
+
           git add .
-          git commit -m "Update Allure report"
-          git push origin gh-pages
+          git commit -m "Initial Allure report deployment"
+          git push --force origin gh-pages
